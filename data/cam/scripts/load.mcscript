@@ -1,0 +1,18 @@
+
+#file: ./load
+run: function cam:mcscript/load
+# do not remove this line!!
+
+// here goes your load content
+/tellraw @a[tag=!camNoText,gamemode=creative] [{"text":"[Cam] ", "color":"gold"},{"text":"Camera package successfully installed and initialized","color":"green"}]
+/scoreboard objectives add camPage dummy
+var camTime
+/scoreboard players set 20 camPos 2
+/scoreboard players set 10 camPos 10
+/scoreboard players set -1 camPos -1
+as(@a), if(!'score @s camTime matches 1..'){
+  camTime @s = 1
+}
+var camPos
+var camPosD
+var camGUI

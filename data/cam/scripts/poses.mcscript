@@ -1,0 +1,61 @@
+#file: ./pos1
+/kill @e[tag=cam1]
+/kill @e[tag=camParticle]
+/summon armor_stand ~ ~100 ~ {CustomName:"{\"text\":\"Position 1\"}", Tags: [camPos,cam1],Invisible:1,Marker:1,NoGravity:1,CustomNameVisible:1}
+/tp @e[tag=cam1] ~ ~ ~ facing ^ ^ ^1
+/execute store result score camX1 camPos run data get entity @e[tag=cam1,sort=nearest,limit=1] Pos[0] 100
+/execute store result score camY1 camPos run data get entity @e[tag=cam1,sort=nearest,limit=1] Pos[1] 100
+/execute store result score camZ1 camPos run data get entity @e[tag=cam1,sort=nearest,limit=1] Pos[2] 100
+/execute store result score camRv1 camPos run data get entity @e[tag=cam1,sort=nearest,limit=1] Rotation[0] 10
+/execute store result score camR1 camPos run data get entity @e[tag=cam1,sort=nearest,limit=1] Rotation[1] 10
+/summon area_effect_cloud ~ ~ ~ {Duration: 2147483647, Tags: [camPos,camParticle]}
+/execute as @e[tag=cam1] run function cam:calc/positions
+
+#file: ./pos2
+/kill @e[tag=cam2]
+/summon armor_stand ~ ~ ~ {CustomName:"{\"text\":\"Position 2\"}", Tags: [camPos,cam2],Invisible:1,Marker:1,NoGravity:1,CustomNameVisible:1}
+/tp @e[tag=cam2] ~ ~ ~ facing ^ ^ ^1
+/tp @e[tag=camParticle] @e[tag=cam1,limit=1]
+/execute store result score camX2 camPos run data get entity @e[tag=cam2,sort=nearest,limit=1] Pos[0] 100
+/execute store result score camY2 camPos run data get entity @e[tag=cam2,sort=nearest,limit=1] Pos[1] 100
+/execute store result score camZ2 camPos run data get entity @e[tag=cam2,sort=nearest,limit=1] Pos[2] 100
+/execute store result score camRv2 camPos run data get entity @e[tag=cam2,sort=nearest,limit=1] Rotation[0] 10
+/execute store result score camR2 camPos run data get entity @e[tag=cam2,sort=nearest,limit=1] Rotation[1] 10
+/execute as @e[tag=cam2] run function cam:calc/positions
+#file: ./calc/positions
+/execute store result score camRv1 camPos run data get entity @e[tag=cam1,sort=nearest,limit=1] Rotation[0] 10
+/execute store result score camR1 camPos run data get entity @e[tag=cam1,sort=nearest,limit=1] Rotation[1] 10
+/execute store result score camRv2 camPos run data get entity @e[tag=cam2,sort=nearest,limit=1] Rotation[0] 10
+/execute store result score camR2 camPos run data get entity @e[tag=cam2,sort=nearest,limit=1] Rotation[1] 10
+/scoreboard players operation camTime camTime = @p[tag=camHolding,gamemode=creative] camTime
+/execute if entity @s[type=player] run scoreboard players operation camTime camTime = @s camTime
+/scoreboard players operation camTime camTime *= 20 camPos
+/scoreboard players operation camDX camPosD = camX2 camPos
+/scoreboard players operation camDX camPosD -= camX1 camPos
+/scoreboard players operation camDX camPosD /= camTime camTime
+
+/scoreboard players operation camDY camPosD = camY2 camPos
+/scoreboard players operation camDY camPosD -= camY1 camPos
+/scoreboard players operation camDY camPosD /= camTime camTime
+
+/scoreboard players operation camDZ camPosD = camZ2 camPos
+/scoreboard players operation camDZ camPosD -= camZ1 camPos
+/scoreboard players operation camDZ camPosD /= camTime camTime
+
+/scoreboard players operation camDR camPosD = camR2 camPos
+/scoreboard players operation camDR camPosD -= camR1 camPos
+/scoreboard players operation camDR camPosD /= camTime camTime
+
+/execute if score camRv1 camPos matches ..0 run tag @s add camUnderflow1
+/execute if entity @s[tag=camUnderflow1] run scoreboard players add camRv1 camPos 3600
+/execute if score camRv2 camPos matches ..0 run tag @s add camUnderflow2
+/execute if entity @s[tag=camUnderflow2] run scoreboard players add camRv2 camPos 3600
+/scoreboard players operation camDRv camPosD = camRv2 camPos
+/scoreboard players operation camDRv camPosD -= camRv1 camPos
+
+/tag @s[tag=camOverflow] remove camOverflow
+/tag @s[tag=camUnderflow] remove camUnderflow
+/tag @s[tag=camUnderflow2] remove camUnderflow2
+/tag @s[tag=camUnderflow1] remove camUnderflow1
+
+/scoreboard players operation camDRv camPosD /= camTime camTime

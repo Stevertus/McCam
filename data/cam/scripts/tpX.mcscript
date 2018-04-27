@@ -1,0 +1,29 @@
+
+#file: ./calc/tpx
+var camI = 0
+/execute if score camI camI < camDX camPosD run function cam:mcscript/tpx1
+camI = 0
+/execute if score camI camI > camDX camPosD run function cam:mcscript/tpx2
+
+#file: ./calc/tpy
+camI = 0
+/execute if score camI camI < camDY camPosD run function cam:mcscript/tpy1
+camI = 0
+/execute if score camI camI > camDY camPosD run function cam:mcscript/tpy2
+
+#file: ./calc/tpz
+camI = 0
+/execute if score camI camI < camDZ camPosD run function cam:mcscript/tpz1
+camI = 0
+/execute if score camI camI > camDZ camPosD run function cam:mcscript/tpz2
+
+#file: ./calc/tpr
+camI = 0
+/execute if score camI camI < camDRv camPosD run function cam:mcscript/tpr1
+camI = 0
+/execute if score camI camI > camDRv camPosD run function cam:mcscript/tpr2
+#file: ./calc/tpr2
+camI = 0
+/execute if score camI camI < camDR camPosD run function cam:mcscript/tpr3
+camI = 0
+/execute if score camI camI > camDR camPosD run function cam:mcscript/tpr4
