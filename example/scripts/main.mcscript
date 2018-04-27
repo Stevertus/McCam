@@ -1,0 +1,36 @@
+
+#file: ./main
+// here goes your main content
+// executes 20 times a second
+as(@a[tag=path3,tag=camOnStop]),at(@s){
+  /scoreboard players set @s camTime 7
+  /execute positioned -423 45 1030 rotated -106 12 run function cam:pos1
+  /execute positioned -423 91 1030 rotated -107 33 run function cam:pos2
+  /tag @s add path4
+  /function cam:start
+  /tag @s remove path3
+}
+as(@a[tag=path2,tag=camOnStop]),at(@s){
+  /scoreboard players set @s camTime 4
+  /execute positioned -445 36 1004 rotated 128 14 run function cam:pos1
+  /execute positioned -436 36 995 rotated -166 10 run function cam:pos2
+  /tag @s add path3
+  /function cam:start
+  /tag @s remove path2
+}
+as(@a[tag=path1,tag=camOnStop]),at(@s){
+  /scoreboard players set @s camTime 8
+  /execute positioned -369 50 1126 rotated 144 12 run function cam:pos1
+  /execute positioned -421 43 1059 rotated 140 19 run function cam:pos2
+  /tag @s add path2
+  /function cam:start
+  /tag @s remove path1
+}
+#file: ./start
+/tag @s add camNoParticles
+/tag @s add camNoText
+/scoreboard players set @s camTime 5
+/execute positioned -469 70 1198 rotated -90 60 run function cam:pos1
+/execute positioned -410 93 1198 rotated -147 26 run function cam:pos2
+/tag @s add path1
+/function cam:start

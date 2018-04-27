@@ -1,0 +1,7 @@
+
+#file: ./load
+run: function exam:mcscript/load
+# do not remove this line!!
+
+// here goes your load content
+  
